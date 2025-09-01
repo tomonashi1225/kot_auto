@@ -1,18 +1,21 @@
 import calendar
 import configparser
 import datetime
+import tempfile
 
 import openpyxl
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.support.select import Select
 
-from selenium.webdriver.chrome.options import Options
-import tempfile
 from logger import get_module_logger
 
 logger = get_module_logger(__name__, False)
+
+
+EXCEL_FOLDER = "excels/"
 
 
 def main():
@@ -51,9 +54,7 @@ def main():
 
         logger.info("loging in...")
         driver.find_element(By.ID, "login_id").send_keys(config["KOT"]["id"])
-        driver.find_element(By.ID, "login_password").send_keys(
-            config["KOT"]["pw"]
-        )
+        driver.find_element(By.ID, "login_password").send_keys(config["KOT"]["pw"])
         driver.find_element(By.ID, "login_button").click()
         logger.info("login success.")
 
@@ -61,15 +62,8 @@ def main():
         logger.info("input start.")
 
         # 入力ページのチェック
-        if (
-            input_date.year * 100 + input_date.month
-            < today.year * 100 + today.month
-        ):
-            diff = (
-                (today.year - input_date.year) * 12
-                + today.month
-                - input_date.month
-            )
+        if input_date.year * 100 + input_date.month < today.year * 100 + today.month:
+            diff = (today.year - input_date.year) * 12 + today.month - input_date.month
             for i in range(diff):
                 driver.find_element(By.ID, "button_before_month").click()
 
