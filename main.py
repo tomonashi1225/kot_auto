@@ -7,8 +7,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.support.select import Select
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
+from selenium.webdriver.chrome.options import Options
+import tempfile
 from logger import get_module_logger
 
 logger = get_module_logger(__name__, False)
@@ -33,10 +34,15 @@ def main():
         logger.info("Excel loaded successfully.")
 
         # Webドライバーの初期化
-        options = webdriver.EdgeOptions()
-        options.add_argument("--headless")
-        service = Service(EdgeChromiumDriverManager().install())
-        driver = webdriver.Edge(service=service, options=options)
+        options = Options()
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
+        options.binary_location = "/usr/bin/google-chrome"
+
+        service = Service("/usr/local/bin/chromedriver")
+        driver = webdriver.Chrome(service=service, options=options)
         driver.implicitly_wait(5)
 
         # ログイン
