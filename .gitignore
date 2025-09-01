@@ -1,0 +1,5 @@
+*.ini
+*.log
+build/
+dist/
+Pipfile.lock
