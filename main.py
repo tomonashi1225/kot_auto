@@ -32,7 +32,7 @@ def main():
         today = datetime.datetime.now()
         month = input_date.strftime("%Y%m")
         logger.info("Excel loading...")
-        wb = openpyxl.load_workbook(month + "_作業報告書.xlsx")
+        wb = openpyxl.load_workbook(EXCEL_FOLDER + month + "_作業報告書.xlsx")
         sheet = wb["Sheet1"]
         logger.info("Excel loaded successfully.")
 
