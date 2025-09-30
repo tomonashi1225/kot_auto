@@ -16,6 +16,7 @@ logger = get_module_logger(__name__, False)
 
 
 EXCEL_FOLDER = "excels/"
+TARGET_URL = "https://s2.kingtime.jp/admin"
 
 
 def main():
@@ -49,8 +50,8 @@ def main():
         driver.implicitly_wait(5)
 
         # ログイン
-        logger.info("connecting browser...")
-        driver.get("https://s2.kingtime.jp/admin")
+        logger.info(f"connecting to {TARGET_URL} ...")
+        driver.get(TARGET_URL)
 
         logger.info("loging in...")
         driver.find_element(By.ID, "login_id").send_keys(config["KOT"]["id"])
